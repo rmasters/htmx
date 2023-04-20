@@ -496,6 +496,8 @@ describe("Core htmx AJAX Tests", function(){
             '<input id="cb4" name="c2" value="cb4"  type="checkbox">'+
             '<input id="cb5" name="c2" value="cb5"  type="checkbox">'+
             '<input id="cb6" name="c3" value="cb6"  type="checkbox">'+
+            '<input id="cb7" name="c4[a]" value="cb7" type="checkbox">'+
+            '<input id="cb8" name="c4[b]" value="cb8" type="checkbox">'+
             '</form>');
 
         form.click();
@@ -557,6 +559,11 @@ describe("Core htmx AJAX Tests", function(){
         this.server.respond();
         values.should.deep.equal({c1:["cb1", "cb3"], c2:"cb5", c3:"cb6"});
 
+        byId("cb7").checked = true;
+        byId("cb8").checked = true;
+        form.click();
+        this.server.respond();
+        values.should.deep.equal({c4: {cb7: "a", cb8: "b"}});
     });
 
     it('text nodes dont screw up settling via variable capture', function()
